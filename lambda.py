@@ -74,10 +74,6 @@ def build_response(session_attributes, speechlet_response):
 # --------------- Functions that control the skill's behavior ------------------
 
 def get_welcome_response():
-    """ If we wanted to initialize the session to have some attributes we could
-    add those here
-    """
-
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Welcome to Pet Tracker. " \
@@ -88,6 +84,15 @@ def get_welcome_response():
     reprompt_text = "Tell me what activity you want to track with which pet, " \
                     "For example: \"I fed the dog\" or \"I am walking the cat\"."
     should_end_session = False
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def say_youre_welcome():
+    session_attributes = {}
+    card_title = "You're Welcome"
+    speech_output = "You're welcome!"
+    reprompt_text = None
+    should_end_session = True
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -111,7 +116,10 @@ def set_pet_in_session(intent, session):
     pet_type = ''
     speech_output = ''
     reprompt_text = None
+    pet_action = ''
 
+    if 'PetAction' in intent['slots'] and 'value' in intent['slots']['PetAction']:
+        pet_action = intent['slots']['PetAction']['value']
 
     if 'PetType' in intent['slots'] and 'value' in intent['slots']['PetType']:
         pet_type = intent['slots']['PetType']['value']
@@ -126,6 +134,17 @@ def set_pet_in_session(intent, session):
 
         elif intent_name == 'PetMeds':
             speech_output = "I have saved that you gave the " + pet_type + " its meds"
+            put_s3( sid, intent_name, pet_type )
+
+        elif intent_name == 'ActionPet':
+            if pet_action in ['fed','feeding','feed']:
+                action_term = 'fed'
+                intent_name = 'FeedPet'
+            elif pet_action in ['walk','walking','walked']:
+                action_term = 'walked'
+                intent_name = 'WalkPet'
+
+            speech_output = "I have saved that you " + action_term + " the " + pet_type
             put_s3( sid, intent_name, pet_type )
 
     else:
@@ -259,10 +278,12 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "WalkPet" or intent_name == "FeedPet" or intent_name == "PetMeds":
+    if intent_name == "WalkPet" or intent_name == "FeedPet" or intent_name == "PetMeds" or intent_name == "ActionPet":
         return set_pet_in_session(intent, session)
     elif intent_name == "AskPet":
         return get_pet_from_session(intent, session)
+    elif intent_name == "ThankYou":
+        return say_youre_welcome()
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
