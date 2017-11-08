@@ -1,6 +1,3 @@
-==== CURRENT ====
-AskPet When the {PetType} was {PetAction}
-AskPet When I {PetAction} the {PetType}
 AskPet When did I {PetAction} the {PetType}
 AskPet When did I last {PetAction} the {PetType}
 AskPet When did the {PetType} last get {PetAction}
@@ -40,6 +37,7 @@ PetMeds I am giving the {PetType} its meds
 PetMeds I am giving the {PetType} his meds
 PetMeds I am giving the {PetType} her meds
 PetMeds I am giving the {PetType} their meds
+
 
 
 ==== FUTURE STATE? ====

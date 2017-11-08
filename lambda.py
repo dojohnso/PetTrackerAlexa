@@ -20,7 +20,6 @@ def get_s3(sid):
         obj = s3w.Object('pet-tracker-alexa', ''+sid+'.json')
         json_input = obj.get()['Body'].read()
 
-        print(json_input)
         track_data = json.loads(json_input)
 
     except:
@@ -212,7 +211,15 @@ def get_pet_from_session(intent, session):
             speech_output = 'I do not know when you last ' + actionWord + ' the ' + pet_type
 
     if speech_output == '':
-        speech_output = "I'm not sure what you want. I heard something about " + pet_type + " and " + pet_action
+        speech_output = "I'm not sure what you want. I heard something about "
+        if pet_type != '':
+            speech_output += pet_type
+
+        if pet_type != '' and pet_action != '':
+            speech_output += ' and '
+
+        if pet_action != '':
+            speech_output += pet_action
         # should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
