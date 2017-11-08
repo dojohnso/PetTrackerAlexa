@@ -204,13 +204,13 @@ def get_pet_from_session(intent, session):
             time_frame = ''
             if days > 0:
                 time_frame += str(days) + " day"
-                if days > 1:
+                if days != 1:
                     time_frame += "s"
                 time_frame += " "
 
             if hours > 0:
                 time_frame += str(hours) + " hour"
-                if hours > 1:
+                if hours != 1:
                     time_frame += "s"
                 time_frame += " "
 
@@ -218,7 +218,7 @@ def get_pet_from_session(intent, session):
                 time_frame += "and "
 
             speech_output += time_frame + str(minutes) + " minute"
-            if minutes > 1:
+            if minutes != 1:
                 speech_output += "s"
             speech_output += " ago"
 
