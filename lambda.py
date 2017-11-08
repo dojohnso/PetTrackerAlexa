@@ -49,9 +49,9 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
             'text': output
         },
         'card': {
-            'type': 'Simple',
-            'title': title,
-            'content': output
+            'type': 'Standard',
+            'title': 'Pet Tracker',
+            'text': output + "\n\nContribute to phrases and fix bugs on GitHub. Search for PetTrackerAlexa."
         },
         'reprompt': {
             'outputSpeech': {
