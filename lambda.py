@@ -99,7 +99,7 @@ def say_youre_welcome():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you using Pet Tracker. " \
+    speech_output = "Thank you for using Pet Tracker. " \
                     "Have a nice day! "
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
@@ -146,6 +146,8 @@ def set_pet_in_session(intent, session):
 
             speech_output = "I have saved that you " + action_term + " the " + pet_type
             put_s3( sid, intent_name, pet_type )
+
+        should_end_session = True
 
     else:
         speech_output = "I'm not sure what is going on. " \
@@ -222,10 +224,7 @@ def get_pet_from_session(intent, session):
                 speech_output += "s"
             speech_output += " ago"
 
-            # datetime.datetime.fromtimestamp(int(action_time)).strftime('%A %Y-%m-%d at %H:%M %p')
-
-            # speech_output += datetime.datetime.fromtimestamp(int(action_time)).strftime('%A %Y-%m-%d at %H:%M %p')
-                # should_end_session = True
+            should_end_session = True
         else:
             speech_output = 'I do not know when you last ' + actionWord + ' the ' + pet_type
 
