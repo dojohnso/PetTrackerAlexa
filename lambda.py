@@ -5,8 +5,41 @@ http://amzn.to/1LGWsLG
 
 from __future__ import print_function
 import time
+import json
 import datetime
+import traceback
+import botocore
+import urllib2
+import boto3
+s3 = boto3.client('s3')
+s3w = boto3.resource('s3')
 
+def get_s3(sid):
+    track_data = {}
+    try:
+        obj = s3w.Object('pet-tracker-alexa', ''+sid+'.json')
+        json_input = obj.get()['Body'].read()
+
+        print(json_input)
+        track_data = json.loads(json_input)
+
+    except:
+        track_data = {}
+        print(traceback.format_exc())
+
+    return track_data
+
+def put_s3(sid, intent, pet_type):
+
+    track_data = get_s3(sid)
+
+    if intent not in track_data:
+        track_data[intent] = {}
+
+    track_data[intent][pet_type] = time.time()
+
+    track = json.dumps(track_data, ensure_ascii=False)
+    s3w.Bucket('pet-tracker-alexa').put_object(Key=''+sid+'.json', Body=track)
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -73,12 +106,7 @@ def handle_session_end_request():
 def set_pet_in_session(intent, session):
 
     intent_name = intent['name']
-    session_attributes = {}
-    if 'attributes' in session:
-        session_attributes = session['attributes']
-    else:
-        session['attributes'] = {}
-
+    sid = session['user']['userId']
 
     should_end_session = False
     pet_type = ''
@@ -89,30 +117,25 @@ def set_pet_in_session(intent, session):
     if 'PetType' in intent['slots'] and 'value' in intent['slots']['PetType']:
         pet_type = intent['slots']['PetType']['value']
 
-        if intent_name not in session['attributes']:
-            session['attributes'][intent_name] = {}
-            session_attributes[intent_name] = {}
-
-        if pet_type in session['attributes'][intent_name]:
-            session_attributes[intent_name][pet_type] = session['attributes'][intent_name][pet_type]
-
         if intent_name == 'WalkPet':
-            session_attributes[intent_name][pet_type] = time.time()
             speech_output = "I have saved that you walked your " + pet_type
+            put_s3( sid, intent_name, pet_type )
+
         elif intent_name == 'FeedPet':
-            session_attributes[intent_name][pet_type] = time.time()
             speech_output = "I have saved that you fed your " + pet_type
+            put_s3( sid, intent_name, pet_type )
+
         elif intent_name == 'PetMeds':
-            session_attributes[intent_name][pet_type] = time.time()
             speech_output = "I have saved that you gave your " + pet_type + " its meds"
+            put_s3( sid, intent_name, pet_type )
 
     else:
-        session_attributes = session['attributes'];
         speech_output = "I'm not sure what is going on. " \
                         "Please try again."
         reprompt_text = "I'm not sure what is happening. " \
                         "Please try again."
 
+    session_attributes = get_s3(sid)
 
     return build_response(session_attributes, build_speechlet_response(
         'Action tracked', speech_output, reprompt_text, should_end_session))
@@ -120,15 +143,10 @@ def set_pet_in_session(intent, session):
 
 def get_pet_from_session(intent, session):
 
-    session_attributes = {}
-    if 'attributes' in session:
-        session_attributes = session['attributes']
-    else:
-        session['attributes'] = {}
-
     should_end_session = False
     reprompt_text = None
     intent_name = intent['name']
+    sid = session['user']['userId']
     pet_type = ''
     pet_action = ''
     speech_output = ''
@@ -139,11 +157,10 @@ def get_pet_from_session(intent, session):
     if 'PetAction' in intent['slots'] and 'value' in intent['slots']['PetAction']:
         pet_action = intent['slots']['PetAction']['value']
 
-    if pet_type != '' and pet_action != '':
+    track_data = get_s3(sid)
+    session_attributes = track_data
 
-        if intent_name not in session['attributes']:
-            session['attributes'][intent_name] = {}
-            session_attributes[intent_name] = {}
+    if pet_type != '' and pet_action != '':
 
         if pet_action == 'feed' or pet_action == 'fed':
             intentAction = 'FeedPet'
@@ -158,8 +175,8 @@ def get_pet_from_session(intent, session):
             actionWord = 'walked'
             speech_output = "Your " + pet_type + " last got its " + actionWord + " "
 
-        if intentAction in session['attributes'] and pet_type in session['attributes'][intentAction]:
-            action_time = session['attributes'][intentAction][pet_type]
+        if intentAction in track_data and pet_type in track_data[intentAction]:
+            action_time = track_data[intentAction][pet_type]
 
             seconds = (int(time.time()) - int(action_time))
             minutes = int(seconds)/60 % 60
@@ -193,11 +210,9 @@ def get_pet_from_session(intent, session):
                 # should_end_session = True
         else:
             speech_output = 'I do not know when you last ' + actionWord + ' your ' + pet_type
-            session_attributes = session['attributes']
 
     if speech_output == '':
         speech_output = "I'm not sure what you want."
-        session_attributes = session['attributes']
         # should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
@@ -278,8 +293,7 @@ def lambda_handler(event, context):
     #     raise ValueError("Invalid Application ID")
 
     if event['session']['new']:
-        on_session_started({'requestId': event['request']['requestId']},
-                           event['session'])
+        on_session_started({'requestId': event['request']['requestId']}, event['session'])
 
     if event['request']['type'] == "LaunchRequest":
         return on_launch(event['request'], event['session'])
