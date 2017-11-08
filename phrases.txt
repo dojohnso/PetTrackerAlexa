@@ -1,0 +1,100 @@
+==== CURRENT ====
+
+WalkPet I am walking the {PetType}
+WalkPet I walked the {PetType}
+WalkPet the {PetType} was walked
+WalkPet I am taking the {PetType} for a walk
+FeedPet I fed the {PetType}
+FeedPet the {PetType} was fed
+FeedPet I am feeding the {PetType}
+PetMeds I gave the {PetType} its meds
+PetMeds I gave the {PetType} his meds
+PetMeds I gave the {PetType} her meds
+PetMeds I gave the {PetType} their meds
+PetMeds the {PetType} got its meds
+PetMeds the {PetType} got her meds
+PetMeds the {PetType} got his meds
+PetMeds the {PetType} got their meds
+PetMeds I am giving the {PetType} its meds
+PetMeds I am giving the {PetType} his meds
+PetMeds I am giving the {PetType} her meds
+PetMeds I am giving the {PetType} their meds
+
+
+
+
+==== FUTURE STATE? ====
+
+WalkPet I am walking {PetName}
+WalkPet I am walking the {PetType}
+WalkPet {PersonName} is walking {PetName}
+WalkPet {PersonName} is walking the {PetType}
+
+WalkPet I walked {PetName}
+WalkPet I walked the {PetType}
+WalkPet {PersonName} walked {PetName}
+WalkPet {PersonName} walked the {PetType}
+
+WalkPet {PetName} was walked
+WalkPet the {PetType} was walked
+
+WalkPet I am taking {PetName} for a walk
+WalkPet I am taking the {PetType} for a walk
+WalkPet {PersonName} is taking {PetName} for a walk
+WalkPet {PersonName} is taking the {PetType} for a walk
+
+FeedPet I fed {PetName}
+FeedPet I fed the {PetType}
+FeedPet {PersonName} fed {PetName}
+FeedPet {PersonName} fed the {PetType}
+
+FeedPet {PetName} was fed
+FeedPet the {PetType} was fed
+
+FeedPet I am feeding {PetName}
+FeedPet I am feeding the {PetType}
+FeedPet {PersonName} is feeding {PetName}
+FeedPet {PersonName} is feeding the {PetType}
+
+PetMeds I gave {PetName} its meds
+PetMeds I gave {PetName} his meds
+PetMeds I gave {PetName} her meds
+PetMeds I gave {PetName} their meds
+PetMeds I gave the {PetType} its meds
+PetMeds I gave the {PetType} his meds
+PetMeds I gave the {PetType} her meds
+PetMeds I gave the {PetType} their meds
+PetMeds {PersonName} gave {PetName} its meds
+PetMeds {PersonName} gave {PetName} his meds
+PetMeds {PersonName} gave {PetName} her meds
+PetMeds {PersonName} gave {PetName} their meds
+PetMeds {PersonName} gave the {PetType} its meds
+PetMeds {PersonName} gave the {PetType} his meds
+PetMeds {PersonName} gave the {PetType} her meds
+PetMeds {PersonName} gave the {PetType} their meds
+
+PetMeds {PetName} got its meds
+PetMeds {PetName} got her meds
+PetMeds {PetName} got his meds
+PetMeds {PetName} got their meds
+PetMeds the {PetType} got its meds
+PetMeds the {PetType} got her meds
+PetMeds the {PetType} got his meds
+PetMeds the {PetType} got their meds
+
+PetMeds I am giving {PetName} its meds
+PetMeds I am giving {PetName} his meds
+PetMeds I am giving {PetName} her meds
+PetMeds I am giving {PetName} their meds
+PetMeds I am giving the {PetType} its meds
+PetMeds I am giving the {PetType} his meds
+PetMeds I am giving the {PetType} her meds
+PetMeds I am giving the {PetType} their meds
+PetMeds {PersonName} is giving {PetName} its meds
+PetMeds {PersonName} is giving {PetName} his meds
+PetMeds {PersonName} is giving {PetName} her meds
+PetMeds {PersonName} is giving {PetName} their meds
+PetMeds {PersonName} is giving the {PetType} its meds
+PetMeds {PersonName} is giving the {PetType} his meds
+PetMeds {PersonName} is giving the {PetType} her meds
+PetMeds {PersonName} is giving the {PetType} their meds

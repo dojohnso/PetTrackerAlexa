@@ -1,0 +1,60 @@
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "PetType",
+          "type": "PetType"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        }
+      ],
+      "intent": "WalkPet"
+    },
+    {
+      "slots": [
+        {
+          "name": "PetType",
+          "type": "PetType"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        }
+      ],
+      "intent": "FeedPet"
+    },
+    {
+      "slots": [
+        {
+          "name": "PetType",
+          "type": "PetType"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        }
+      ],
+      "intent": "PetMeds"
+    },
+    {
+      "slots": [
+        {
+          "name": "PetType",
+          "type": "PetType"
+        },
+        {
+          "name": "PetAction",
+          "type": "PetAction"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        }
+      ],
+      "intent": "AskPet"
+    }
+  ]
+}
