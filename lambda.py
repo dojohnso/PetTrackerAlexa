@@ -82,12 +82,12 @@ def get_welcome_response():
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Welcome to Pet Tracker. " \
-                    "Please tell me the type of pet you have by saying, " \
-                    "I have a dog."
+                    "Tell me what activity you want to track with which pet, " \
+                    "For example: \"I fed the dog\" or \"I am walking the cat\"."
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me the type of pet you have by saying, " \
-                    "I have a dog."
+    reprompt_text = "Tell me what activity you want to track with which pet, " \
+                    "For example: \"I fed the dog\" or \"I am walking the cat\"."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -118,15 +118,15 @@ def set_pet_in_session(intent, session):
         pet_type = intent['slots']['PetType']['value']
 
         if intent_name == 'WalkPet':
-            speech_output = "I have saved that you walked your " + pet_type
+            speech_output = "I have saved that you walked the " + pet_type
             put_s3( sid, intent_name, pet_type )
 
         elif intent_name == 'FeedPet':
-            speech_output = "I have saved that you fed your " + pet_type
+            speech_output = "I have saved that you fed the " + pet_type
             put_s3( sid, intent_name, pet_type )
 
         elif intent_name == 'PetMeds':
-            speech_output = "I have saved that you gave your " + pet_type + " its meds"
+            speech_output = "I have saved that you gave the " + pet_type + " its meds"
             put_s3( sid, intent_name, pet_type )
 
     else:
@@ -165,15 +165,15 @@ def get_pet_from_session(intent, session):
         if pet_action == 'feed' or pet_action == 'fed':
             intentAction = 'FeedPet'
             actionWord = 'fed'
-            speech_output = "Your " + pet_type + " was " + actionWord + " "
+            speech_output = "The  " + pet_type + " was " + actionWord + " "
         elif pet_action == 'walk' or pet_action == 'walked':
             intentAction = 'WalkPet'
             actionWord = 'walked'
-            speech_output = "Your " + pet_type + " was " + actionWord + " "
+            speech_output = "The " + pet_type + " was " + actionWord + " "
         elif pet_action == 'meds':
             intentAction = 'PetMeds'
             actionWord = 'walked'
-            speech_output = "Your " + pet_type + " last got its " + actionWord + " "
+            speech_output = "The " + pet_type + " last got its " + actionWord + " "
 
         if intentAction in track_data and pet_type in track_data[intentAction]:
             action_time = track_data[intentAction][pet_type]
@@ -209,10 +209,10 @@ def get_pet_from_session(intent, session):
             # speech_output += datetime.datetime.fromtimestamp(int(action_time)).strftime('%A %Y-%m-%d at %H:%M %p')
                 # should_end_session = True
         else:
-            speech_output = 'I do not know when you last ' + actionWord + ' your ' + pet_type
+            speech_output = 'I do not know when you last ' + actionWord + ' the ' + pet_type
 
     if speech_output == '':
-        speech_output = "I'm not sure what you want."
+        speech_output = "I'm not sure what you want. I heard something about " + pet_type + " and " + pet_action
         # should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt

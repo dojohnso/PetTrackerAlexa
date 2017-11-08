@@ -1,11 +1,33 @@
 ==== CURRENT ====
+AskPet When the {PetType} was {PetAction}
+AskPet When I {PetAction} the {PetType}
+AskPet When did I {PetAction} the {PetType}
+AskPet When did I last {PetAction} the {PetType}
+AskPet When did the {PetType} last get {PetAction}
+AskPet When was the {PetType} last {PetAction}
+AskPet When was the {PetType} {PetAction}
+AskPet When did the {PetType} get {PetAction}
+AskPet When did I give the {PetType} its {PetAction}
+AskPet When did I give the {PetType} his {PetAction}
+AskPet When did I give the {PetType} her {PetAction}
+AskPet When did I give the {PetType} their {PetAction}
+AskPet When I gave the {PetType} its {PetAction}
+AskPet When I gave the {PetType} his {PetAction}
+AskPet When I gave the {PetType} her {PetAction}
+AskPet When I gave the {PetType} their {PetAction}
+AskPet When did the {PetType} last get its {PetAction}
+AskPet When did the {PetType} last get his {PetAction}
+AskPet When did the {PetType} last get her {PetAction}
+AskPet When did the {PetType} last get their {PetAction}
 
 WalkPet I am walking the {PetType}
 WalkPet I walked the {PetType}
 WalkPet the {PetType} was walked
 WalkPet I am taking the {PetType} for a walk
+
 FeedPet I fed the {PetType}
 FeedPet I am feeding the {PetType}
+
 PetMeds I gave the {PetType} its meds
 PetMeds I gave the {PetType} his meds
 PetMeds I gave the {PetType} her meds
@@ -18,14 +40,6 @@ PetMeds I am giving the {PetType} its meds
 PetMeds I am giving the {PetType} his meds
 PetMeds I am giving the {PetType} her meds
 PetMeds I am giving the {PetType} their meds
-AskPet When did I {PetAction} the {PetType}
-AskPet When did I last {PetAction} the {PetType}
-AskPet When did the {PetType} last get {PetAction}
-AskPet When was the {PetType} last {PetAction}
-AskPet When was the {PetType} {PetAction}
-AskPet When did the {PetType} get {PetAction}
-AskPet When did I give the {PetType} its {PetAction}
-AskPet When did the {PetType} last get its {PetAction}
 
 
 ==== FUTURE STATE? ====
