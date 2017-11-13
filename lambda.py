@@ -170,6 +170,7 @@ def get_pet_from_session(intent, session):
     pet_type = ''
     pet_action = ''
     speech_output = ''
+    intentAction = ''
 
     if 'PetType' in intent['slots'] and 'value' in intent['slots']['PetType']:
         pet_type = intent['slots']['PetType']['value']
@@ -181,7 +182,6 @@ def get_pet_from_session(intent, session):
     session_attributes = track_data
 
     if pet_type != '' and pet_action != '':
-
         if pet_action == 'feed' or pet_action == 'fed':
             intentAction = 'FeedPet'
             actionWord = 'fed'
@@ -195,38 +195,39 @@ def get_pet_from_session(intent, session):
             actionWord = 'walked'
             speech_output = "The " + pet_type + " last got its " + actionWord + " "
 
-        if intentAction in track_data and pet_type in track_data[intentAction]:
-            action_time = track_data[intentAction][pet_type]
+        if intentAction != '':
+            if intentAction in track_data and pet_type in track_data[intentAction]:
+                action_time = track_data[intentAction][pet_type]
 
-            seconds = (int(time.time()) - int(action_time))
-            minutes = int(seconds)/60 % 60
-            hours = int(seconds)/60/60 % 24
-            days = int(seconds)/60/60/24
+                seconds = (int(time.time()) - int(action_time))
+                minutes = int(seconds)/60 % 60
+                hours = int(seconds)/60/60 % 24
+                days = int(seconds)/60/60/24
 
-            time_frame = ''
-            if days > 0:
-                time_frame += str(days) + " day"
-                if days != 1:
-                    time_frame += "s"
-                time_frame += " "
+                time_frame = ''
+                if days > 0:
+                    time_frame += str(days) + " day"
+                    if days != 1:
+                        time_frame += "s"
+                    time_frame += " "
 
-            if hours > 0:
-                time_frame += str(hours) + " hour"
-                if hours != 1:
-                    time_frame += "s"
-                time_frame += " "
+                if hours > 0:
+                    time_frame += str(hours) + " hour"
+                    if hours != 1:
+                        time_frame += "s"
+                    time_frame += " "
 
-            if time_frame != '':
-                time_frame += "and "
+                if time_frame != '':
+                    time_frame += "and "
 
-            speech_output += time_frame + str(minutes) + " minute"
-            if minutes != 1:
-                speech_output += "s"
-            speech_output += " ago"
+                speech_output += time_frame + str(minutes) + " minute"
+                if minutes != 1:
+                    speech_output += "s"
+                speech_output += " ago"
 
-            should_end_session = True
-        else:
-            speech_output = 'I do not know when you last ' + actionWord + ' the ' + pet_type
+                should_end_session = True
+            else:
+                speech_output = 'I do not know when you last ' + actionWord + ' the ' + pet_type
 
     if speech_output == '':
         speech_output = "I'm not sure what you want. I heard something about "
