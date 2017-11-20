@@ -123,7 +123,7 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 
-def set_pet_in_session(intent, session):
+def save_user_data(intent, session):
 
     intent_name = intent['name']
     sid = session['user']['userId']
@@ -165,7 +165,7 @@ def set_pet_in_session(intent, session):
     return build_response(session_attributes, build_speechlet_response(
         'Action tracked', speech_output, reprompt_text, should_end_session))
 
-def get_all_from_session(intent, session):
+def get_all_user_data(intent, session):
 
     should_end_session = True
     reprompt_text = None
@@ -238,7 +238,7 @@ def say_time( action_time ):
     return output
 
 
-def get_pet_from_session(intent, session):
+def get_user_data(intent, session):
 
     should_end_session = False
     reprompt_text = None
@@ -339,11 +339,13 @@ def on_intent(intent_request, session):
 
     # Dispatch to your skill's intent handlers
     if intent_name == "WalkPet" or intent_name == "FeedPet" or intent_name == "PetMeds":
-        return set_pet_in_session(intent, session)
+        return save_user_data(intent, session)
     elif intent_name == "AskPet":
-        return get_pet_from_session(intent, session)
+        return get_user_data(intent, session)
     elif intent_name == "AskAll":
-        return get_all_from_session(intent, session)
+        return get_all_user_data(intent, session)
+    # elif intent_name == "MyNameIs":
+    #     return save_user_name(intent, session)
     elif intent_name == "ThankYou":
         return say_good_bye()
     elif intent_name == "AMAZON.HelpIntent":
@@ -352,6 +354,10 @@ def on_intent(intent_request, session):
         return handle_session_end_request()
     else:
         raise ValueError("Invalid intent")
+
+# def save_user_name(intent, session):
+    #
+
 
 
 def on_session_ended(session_ended_request, session):
